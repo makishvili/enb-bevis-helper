@@ -5,7 +5,8 @@ module.exports = function (config) {
 var inherit = require('inherit');
 var ModuleConfig = require('enb/lib/config/module-config');
 
-var EnbBevisHelperBase = inherit(ModuleConfig, {
+/** @name EnbBevisHelperBase */
+var EnbBevisHelperBase = inherit(ModuleConfig, /** @lends EnbBevisHelperBase.prototype */ {
     __constructor: function (config) {
         this._sourcesConfig = {};
         this._depsConfig = {};
@@ -20,6 +21,11 @@ var EnbBevisHelperBase = inherit(ModuleConfig, {
         this._config = config;
     },
 
+    /**
+     * Собирает статичную HTML-страницу из BtJson со всеми необходимыми ресурсами: JS, CSS.
+     *
+     * @returns {EnbBevisHelperBase}
+     */
     forStaticHtmlPage: function () {
         return this.copyAnd(function () {
             this._depsConfig = {};
@@ -27,12 +33,23 @@ var EnbBevisHelperBase = inherit(ModuleConfig, {
         });
     },
 
+    /**
+     * Собирает необходимые ресурсы для рендеринга страницы на сервере: BT, JS, CSS.
+     *
+     * @returns {EnbBevisHelperBase}
+     */
     forServerPage: function () {
         return this.copyAnd(function () {
             this._buildHtml = false;
         });
     },
 
+    /**
+     * Конфигурирует проект для сборки тестов.
+     *
+     * @param {String} path Путь к ноде, в которой происходит сборка тестов.
+     * @returns {EnbBevisHelperBase}
+     */
     configureUnitTests: function (path) {
         return this.copyAnd(function () {
             this._buildHtml = false;
@@ -73,30 +90,60 @@ var EnbBevisHelperBase = inherit(ModuleConfig, {
         });
     },
 
+    /**
+     * Устанавливает директории, которыми необходимо ограничить сборку тестов.
+     *
+     * @param {String[]} testDirs
+     * @returns {EnbBevisHelperBase}
+     */
     testDirs: function (testDirs) {
         return this.copyAnd(function () {
             this._testDirs = testDirs;
         });
     },
 
+    /**
+     * Включает сборку CSS-файла для IE8.
+     *
+     * @param {String} ie8Suffix Суффикс. Например, если передано значение `ie8`, будет собран `_?.ie8.css`.
+     * @returns {EnbBevisHelperBase}
+     */
     supportIE8: function (ie8Suffix) {
         return this.copyAnd(function () {
             this._ie8Suffix = ie8Suffix;
         });
     },
 
+    /**
+     * Включает сборку CSS-файла для IE9.
+     *
+     * @param {String} ie9Suffix Суффикс. Например, если передано значение `ie9`, будет собран `_?.ie9.css`.
+     * @returns {EnbBevisHelperBase}
+     */
     supportIE9: function (ie9Suffix) {
         return this.copyAnd(function () {
             this._ie9Suffix = ie9Suffix;
         });
     },
 
+    /**
+     * Устанавливает список поддерживаемых браузеров для автопрефиксера и автополифиллера.
+     *
+     * @param {String[]} browserSupport
+     * @returns {EnbBevisHelperBase}
+     */
     browserSupport: function (browserSupport) {
         return this.copyAnd(function () {
             this._browserSupport = browserSupport;
         });
     },
 
+    /**
+     * Включает или выключает использование автополифиллера.
+     *
+     * @param {Boolean} [useAutopolyfiller=true]
+     * @returns {EnbBevisHelperBase}
+     */
     useAutopolyfiller: function (useAutopolyfiller) {
         if (arguments.length === 0) {
             useAutopolyfiller = true;
@@ -106,18 +153,36 @@ var EnbBevisHelperBase = inherit(ModuleConfig, {
         });
     },
 
+    /**
+     * Задает список исключений для автополифиллера.
+     *
+     * @param {String[]} autopolyfillerExcludes
+     * @returns {EnbBevisHelperBase}
+     */
     autopolyfillerExcludes: function (autopolyfillerExcludes) {
         return this.copyAnd(function () {
             this._autopolyfillerExcludes = autopolyfillerExcludes;
         });
     },
 
+    /**
+     * Задает настройки для технологии `sources`.
+     *
+     * @param {Object} sourcesConfig
+     * @returns {EnbBevisHelperBase}
+     */
     sources: function (sourcesConfig) {
         return this.copyAnd(function () {
             this._sourcesConfig = sourcesConfig;
         });
     },
 
+    /**
+     * Задает список исходных зависимостей для сборки.
+     *
+     * @param {String[]} sourceDeps
+     * @returns {EnbBevisHelperBase}
+     */
     sourceDeps: function (sourceDeps) {
         return this.copyAnd(function () {
             if (sourceDeps) {
@@ -130,6 +195,12 @@ var EnbBevisHelperBase = inherit(ModuleConfig, {
         });
     },
 
+    /**
+     * Применяет конфигурацию для ноды.
+     *
+     * @param {NodeConfig} nodeConfig
+     * @param {Object} options
+     */
     configureNode: function (nodeConfig, options) {
         var browserSupport = this._browserSupport;
 
