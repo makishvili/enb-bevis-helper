@@ -290,7 +290,7 @@ var EnbBevisHelperBase = inherit(ModuleConfig, /** @lends EnbBevisHelperBase.pro
                 configureCssBuild(this._ie9Suffix, ['ie 9'], {ie: 9});
             }
 
-            nodeConfig.addTargets(['_?.{lang}.js', '_?.lang.{lang}.js']);
+            nodeConfig.addTargets(['?.bt.js', '_?.{lang}.js', '_?.lang.{lang}.js']);
         }
     },
 
