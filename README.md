@@ -198,3 +198,6 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         bevisHelper.configureUnitTests('test/client');
     };
     ```
+### Примеры
+
+1. [Простой проект на bevis-stub](https://github.com/bevis-ui/bevis-stub/blob/master/.enb/make.js)
