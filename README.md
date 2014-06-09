@@ -45,7 +45,7 @@ ENB - инструмент для сборки, разбитый на много
 ```
 
 
-###Руководство
+##Руководство
 
 1. Выполнить `npm install`.
 2. Проверить, что `ENB` установлен. Команда `node_modules/.bin/enb` должна выполниться без ошибок.
@@ -82,7 +82,7 @@ ENB - инструмент для сборки, разбитый на много
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
 
-        var pagesNames = fs.readdirSync(pckg.enb.pages);
+        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -107,7 +107,7 @@ ENB - инструмент для сборки, разбитый на много
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
 
-        var pagesNames = fs.readdirSync(pckg.enb.pages);
+        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -145,7 +145,7 @@ ENB - инструмент для сборки, разбитый на много
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
 
-        var pagesNames = fs.readdirSync(pckg.enb.pages);
+        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
