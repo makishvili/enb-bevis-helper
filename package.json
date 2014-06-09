@@ -22,7 +22,8 @@
     "enb-bt": "^1.2.0",
     "enb-stylus": "^1.0.0",
     "enb-autopolyfiller": "^1.1.5",
-    "enb-y-i18n": "^1.0.1"
+    "enb-y-i18n": "^1.0.1",
+    "enb-borschik": "^1.0.4"
   },
   "devDependencies": {
     "jscs": "~1.2.4",
