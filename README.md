@@ -139,19 +139,91 @@ ENB - инструмент для сборки, разбитый на много
     ```
 8. Сконфигурировать статическую страницу:
     ```javascript
-    //...
-        config.node('pages/examples', function (nodeConfig) {
+    var fs = require('fs');
+    var pckg = require('../package.json');
+
+    module.exports = function(config) {
+        config.includeConfig('enb-bevis-helper');
+
+        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
+
+        var browserSupport = [
+            'IE >= 9',
+            'Safari >= 5',
+            'Chrome >= 33',
+            'Opera >= 12.16',
+            'Firefox >= 28'
+        ];
+
+        var bevisHelper = config.module('enb-bevis-helper')
+            .sourceDeps(pagesNames)
+            .browserSupport(browserSupport)
+            .useAutopolyfiller()
+            .autopolyfillerExcludes(['Promise']);
+
+        config.setLanguages(['ru', 'en']);
+
+        config.node('build/index', function (nodeConfig) {
+            bevisHelper
+                .forServerPage()
+                .configureNode(nodeConfig);
+            nodeConfig.addTech(require('./techs/priv-js'));
+            nodeConfig.addTarget('?.priv.js');
+        });
+
+        // Статическая страница
+        config.node('build/examples', function (nodeConfig) {
             bevisHelper
                 .forStaticHtmlPage()
                 .configureNode(nodeConfig);
         });
-    //...
+
+    };
     ```
 9. Сконфигурировать тесты:
     ```javascript
-    //...
+    var fs = require('fs');
+    var pckg = require('../package.json');
+
+    module.exports = function(config) {
+        config.includeConfig('enb-bevis-helper');
+
+        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
+
+        var browserSupport = [
+            'IE >= 9',
+            'Safari >= 5',
+            'Chrome >= 33',
+            'Opera >= 12.16',
+            'Firefox >= 28'
+        ];
+
+        var bevisHelper = config.module('enb-bevis-helper')
+            .sourceDeps(pagesNames)
+            .browserSupport(browserSupport)
+            .useAutopolyfiller()
+            .autopolyfillerExcludes(['Promise']);
+
+        config.setLanguages(['ru', 'en']);
+
+        config.node('build/index', function (nodeConfig) {
+            bevisHelper
+                .forServerPage()
+                .configureNode(nodeConfig);
+            nodeConfig.addTech(require('./techs/priv-js'));
+            nodeConfig.addTarget('?.priv.js');
+        });
+
+        config.node('build/examples', function (nodeConfig) {
+            bevisHelper
+                .forStaticHtmlPage()
+                .configureNode(nodeConfig);
+        });
+
+        // Тесты
         bevisHelper.configureUnitTests('test/client');
-    //...
+
+    };
     ```
 10. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды:
     ```javascript
