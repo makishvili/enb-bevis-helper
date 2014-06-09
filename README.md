@@ -190,7 +190,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
         config.node('build/examples', function (nodeConfig) {
             bevisHelper
-                .forStaticHtmlPage() // Конфигурирует статическую страницу
+                .forStaticHtmlPage()
                 .configureNode(nodeConfig);
         });
 
