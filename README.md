@@ -137,7 +137,23 @@ ENB - инструмент для сборки, разбитый на много
 
     };
     ```
-8. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды:
+8. Сконфигурировать статическую страницу:
+    ```javascript
+    //...
+        config.node('pages/examples', function (nodeConfig) {
+            bevisHelper
+                .forStaticHtmlPage()
+                .configureNode(nodeConfig);
+        });
+    //...
+    ```
+9. Сконфигурировать тесты:
+    ```javascript
+    //...
+        bevisHelper.configureUnitTests('test/client');
+    //...
+    ```
+10. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды:
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -181,3 +197,4 @@ ENB - инструмент для сборки, разбитый на много
 
     };
     ```
+
