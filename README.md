@@ -45,22 +45,24 @@ ENB - инструмент для сборки, разбитый на много
 ```
 
 
-###Настройка
+###Руководство
 
-1. Создайте `.enb/make.js`
+1. Выполнить `npm install`.
+2. Проверить, что `ENB` установлен. Команда `node_modules/.bin/enb` должна выполниться без ошибок.
+3. Создать `.enb/make.js`
     ```javascript
     module.exports = function(config) {
 
     };
     ```
-2. Подключите конфиг `enb-bevis-helper`
+4. Подключить конфиг `enb-bevis-helper`
     ```javascript
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
     };
 
     ```
-3. Подключите модуль `fs`, прочитайте `package.json`, получите список страниц, которые вы будете собирать в проекте.
+5. Подключить модуль `fs`, прочитать `package.json`, получить список страниц, которые вы будете собирать в проекте.
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -72,7 +74,7 @@ ENB - инструмент для сборки, разбитый на много
         var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
     };
     ```
-4. Настройте `enb-bevis-helper`
+6. Настроить `enb-bevis-helper`
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -97,7 +99,7 @@ ENB - инструмент для сборки, разбитый на много
             .autopolyfillerExcludes(['Promise']);
     };
     ```
-5. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`
+7. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -135,7 +137,7 @@ ENB - инструмент для сборки, разбитый на много
 
     };
     ```
-6. Если в вашем проекте все ноды динамические, собираются технологией `priv-js`, можно конфигурировать сразу все ноды:
+8. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды:
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
