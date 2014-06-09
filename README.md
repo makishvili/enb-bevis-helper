@@ -12,7 +12,7 @@ ENB - инструмент для сборки, разбитый на много
 
 Укажите зависимость от последней версии пакета `enb-bevis-helper`, и все нужные модули для сборки вашего проекта подтянутся самостоятельно.
 
-```
+```javascript
 //...
     "dependencies": {
         "enb-bevis-helper": "1.0.0",
@@ -48,21 +48,18 @@ ENB - инструмент для сборки, разбитый на много
 ###.enb/make.js
 
 1. Создайте `.enb/make.js`
-```
+```javascript
 module.exports = function(config) {
 };
 ```
-
 2. Подключите конфиг `enb-bevis-helper`
-```
+```javascript
 module.exports = function(config) {
     config.includeConfig('enb-bevis-helper');
 };
 ```
-
 3. Подключите модуль `fs`, прочитайте `package.json`, получите список страниц, которые вы будете собирать в проекте.
-
-```
+```javascript
 var fs = require('fs');
 var pckg = require('../package.json');
 
@@ -73,11 +70,8 @@ module.exports = function(config) {
     var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 };
 ```
-
-
-3. Настройте `enb-bevis-helper`
-
-```
+4. Настройте `enb-bevis-helper`
+```javascript
 var fs = require('fs');
 var pckg = require('../package.json');
 
@@ -101,10 +95,8 @@ module.exports = function(config) {
         .autopolyfillerExcludes(['Promise']);
 };
 ```
-
-4. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`
-
-```
+5. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`
+```javascript
 var fs = require('fs');
 var pckg = require('../package.json');
 
@@ -141,10 +133,8 @@ module.exports = function(config) {
 
 };
 ```
-
-5. Если в вашем проекте все ноды динамические, собираются технологией `priv-js`, можно конфигурировать сразу все ноды:
-
-```
+6. Если в вашем проекте все ноды динамические, собираются технологией `priv-js`, можно конфигурировать сразу все ноды:
+```javascript
 var fs = require('fs');
 var pckg = require('../package.json');
 
