@@ -50,6 +50,7 @@ ENB - инструмент для сборки, разбитый на много
 1. Создайте `.enb/make.js`
     ```javascript
     module.exports = function(config) {
+
     };
     ```
 2. Подключите конфиг `enb-bevis-helper`
@@ -57,6 +58,7 @@ ENB - инструмент для сборки, разбитый на много
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
     };
+
     ```
 3. Подключите модуль `fs`, прочитайте `package.json`, получите список страниц, которые вы будете собирать в проекте.
     ```javascript
