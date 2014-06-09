@@ -106,7 +106,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
             .autopolyfillerExcludes(['Promise']);
     };
     ```
-7. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`
+7. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`. Это страница, которая строится из динамических данных на основе технологии `priv-js`
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
