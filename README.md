@@ -41,9 +41,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
             "blocks",
             "core",
             "pages"
-        ],
-        "source-pages": "pages", // директория с исходным кодом страниц
-        "build-pages": "build"   // директория с собранными страницами
+        ]
     }
 //...
 ```
@@ -75,27 +73,10 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
     };
 
     ```
-5. Подключить модуль `fs`, прочитать `package.json`, получить список страниц, которые вы будете собирать в проекте.
+5. Настроить `enb-bevis-helper`
     ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
-
-        // Имена страниц с исходным кодом
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
-    };
-    ```
-6. Настроить `enb-bevis-helper`
-    ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
-    module.exports = function(config) {
-        config.includeConfig('enb-bevis-helper');
-
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -106,21 +87,14 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         ];
 
         var bevisHelper = config.module('enb-bevis-helper')
-            .sourceDeps(pagesNames)         // Указываем сборщику, куда смотреть, чтобы узнать из каких блоков собирать страницы
             .browserSupport(browserSupport) // Какие браузеры будем поддерживать в проекте
-            .useAutopolyfiller()            // Будем использовать Autopolyfiller.js
-            .autopolyfillerExcludes(['Promise']);
+            .useAutopolyfiller();           // Будем использовать Autopolyfiller.js
     };
     ```
-7. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`. Это страница, которая строится из динамических данных на основе технологии `priv-js`
+6. Теперь нужно настроить ноду. Для примера, приведу вариант настройки ноды `build/index`. Это страница, которая строится из динамических данных на основе технологии `priv-js`
     ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
-
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -131,18 +105,17 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         ];
 
         var bevisHelper = config.module('enb-bevis-helper')
-            .sourceDeps(pagesNames)
             .browserSupport(browserSupport)
-            .useAutopolyfiller()
-            .autopolyfillerExcludes(['Promise']);
+            .useAutopolyfiller();
 
         // Языки для проекта
         config.setLanguages(['ru', 'en']);
 
-        // Добавление ноды в сборку + конфигурирование ноды
+        // Динамическая страница
         config.node('build/index', function (nodeConfig) {
             bevisHelper
-                .forServerPage()
+                .sourceDeps('index-page') // Нода будет искать зависимости внутри блока index-page
+                .forServerPage()          // Конфигурирует динамическую страницу
                 .configureNode(nodeConfig);
             nodeConfig.addTech(require('./techs/priv-js'));
             nodeConfig.addTarget('?.priv.js');
@@ -150,15 +123,10 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
     };
     ```
-8. Сконфигурировать статическую страницу. Она собирается на основе `btjson.js` декларации
+7. Сконфигурировать статическую страницу. Она собирается на основе `btjson.js` декларации
     ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
-
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -169,15 +137,14 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         ];
 
         var bevisHelper = config.module('enb-bevis-helper')
-            .sourceDeps(pagesNames)
             .browserSupport(browserSupport)
-            .useAutopolyfiller()
-            .autopolyfillerExcludes(['Promise']);
+            .useAutopolyfiller();
 
         config.setLanguages(['ru', 'en']);
 
         config.node('build/index', function (nodeConfig) {
             bevisHelper
+                .sourceDeps('index-page')
                 .forServerPage()
                 .configureNode(nodeConfig);
             nodeConfig.addTech(require('./techs/priv-js'));
@@ -187,7 +154,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         // Статическая страница
         config.node('build/examples', function (nodeConfig) {
             bevisHelper
-                .forStaticHtmlPage()
+                .forStaticHtmlPage() // Конфигурирует статическую страницу
                 .configureNode(nodeConfig);
         });
 
@@ -195,13 +162,8 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
     ```
 9. Сконфигурировать тесты.
     ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
     module.exports = function(config) {
         config.includeConfig('enb-bevis-helper');
-
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
 
         var browserSupport = [
             'IE >= 9',
@@ -212,15 +174,14 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
         ];
 
         var bevisHelper = config.module('enb-bevis-helper')
-            .sourceDeps(pagesNames)
             .browserSupport(browserSupport)
-            .useAutopolyfiller()
-            .autopolyfillerExcludes(['Promise']);
+            .useAutopolyfiller();
 
         config.setLanguages(['ru', 'en']);
 
         config.node('build/index', function (nodeConfig) {
             bevisHelper
+                .sourceDeps('index-page')
                 .forServerPage()
                 .configureNode(nodeConfig);
             nodeConfig.addTech(require('./techs/priv-js'));
@@ -229,57 +190,11 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
         config.node('build/examples', function (nodeConfig) {
             bevisHelper
-                .forStaticHtmlPage()
+                .forStaticHtmlPage() // Конфигурирует статическую страницу
                 .configureNode(nodeConfig);
         });
 
         // Тесты
         bevisHelper.configureUnitTests('test/client');
-
     };
     ```
-10. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды.
-    ```javascript
-    var fs = require('fs');
-    var pckg = require('../package.json');
-
-    module.exports = function(config) {
-        config.includeConfig('enb-bevis-helper');
-
-        var pagesNames = fs.readdirSync(pckg.enb['source-pages']);
-
-        var browserSupport = [
-            'IE >= 9',
-            'Safari >= 5',
-            'Chrome >= 33',
-            'Opera >= 12.16',
-            'Firefox >= 28'
-        ];
-
-        var bevisHelper = config.module('enb-bevis-helper')
-            .sourceDeps(pagesNames)
-            .browserSupport(browserSupport)
-            .useAutopolyfiller()
-            .autopolyfillerExcludes(['Promise']);
-
-        config.setLanguages(['ru', 'en']);
-
-        // Получить имена всех нод
-        // pages/index-page -> build/index
-        var nodesNames = pagesNames.map(function(nodeName) {
-            return nodeName.replace(/(.*?)\-page/, pckg.enb['build-pages'] + '/$1');
-        });
-
-        // Метод config.nodes() вместо config.node()
-        // Первым параметром массив всех нод
-        config.nodes(nodesNames, function (nodeConfig) {
-            bevisHelper
-                .forServerPage()
-                .configureNode(nodeConfig);
-            nodeConfig.addTech(require('./techs/priv-js'));
-            nodeConfig.addTarget('?.priv.js');
-        });
-
-    };
-    ```
-
