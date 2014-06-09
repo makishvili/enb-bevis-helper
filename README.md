@@ -144,7 +144,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
     };
     ```
-8. Сконфигурировать статическую страницу:
+8. Сконфигурировать статическую страницу. Она собирается на основе `btjson.js` декларации
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -187,7 +187,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
     };
     ```
-9. Сконфигурировать тесты:
+9. Сконфигурировать тесты.
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
@@ -232,7 +232,7 @@ enb-bevis-helper [![Build Status](https://travis-ci.org/enb-make/enb-bevis-helpe
 
     };
     ```
-10. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды:
+10. Если в вашем проекте все ноды динамические и собираются, к примеру, технологией `priv-js`, можно конфигурировать сразу все ноды.
     ```javascript
     var fs = require('fs');
     var pckg = require('../package.json');
